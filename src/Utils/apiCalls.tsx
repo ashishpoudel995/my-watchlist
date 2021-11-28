@@ -4,9 +4,10 @@ import { apiSearchResults } from "../Components/HomePage";
 export async function apiCall(input_string: string) {
   if (!input_string) return [];
   let imdb_ids: Array<string> = [];
+  let api_key:string="45a35551";
 
   await axios
-    .get(`http://www.omdbapi.com/?apikey=45a35551&s=${input_string}`)
+    .get(`http://www.omdbapi.com/?apikey=${api_key}&s=${input_string}`)
     .then((res) => {
       if (res.data.Error) {
         return [{ error: res.data.Error }];
@@ -22,11 +23,12 @@ export async function apiCall(input_string: string) {
 }
 
 export async function searchById(imdb_ids: Array<string>) {
+  let api_key:string="45a35551";
   let search_results_detail: Array<apiSearchResults> = [];
   await Promise.all(
     imdb_ids.map(async (imdbID) => {
       await axios
-        .get(`http://www.omdbapi.com/?apikey=45a35551&i=${imdbID}`)
+        .get(`http://www.omdbapi.com/?apikey=${api_key}&i=${imdbID}`)
         .then((res2) => {
           search_results_detail.push({
             imdbID,
