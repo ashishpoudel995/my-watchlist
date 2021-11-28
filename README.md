@@ -3,7 +3,7 @@
 
 ### Live Demo: <a href="https://ashishpoudel.tk/my-watchlist">my-watchlist</a>
 
-### Built Using:
+### Built Using: 
 <p> 
   <img src="https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=flat">
   <img src="https://img.shields.io/badge/TypeScript-007ACC?&logo=typescript&logoColor=white">
