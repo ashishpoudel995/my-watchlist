@@ -13,7 +13,7 @@
 ### Features of the app:
 <ul>
     <li>You can search any movies/search of your choice in the app and add it directly to your watchlist. omdbapi is used for implementing the same.</li>
-    <li>You can add to your watchlist and come back later. It'll still persist. For the storage, Cookies is used.</li>
+    <li>You can add to your watchlist and come back later. It'll still persist(for 365 days). For the storage, Cookies is used.</li>
 </ul>
 
 ### API used: <a href="http://www.omdbapi.com/">OMDb API</a>
