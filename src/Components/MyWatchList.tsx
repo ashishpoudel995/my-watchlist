@@ -29,7 +29,7 @@ export default function MyWatchList() {
     <div className="main">
       <div className="main-container">
         <div className="homepage-icon">
-          <Link to="/">
+          <Link to="/my-watchlist">
             <button>
               <i className="fas fa-chevron-left class1" />
               <i className="fas fa-chevron-left class2" />

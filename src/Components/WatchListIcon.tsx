@@ -11,7 +11,7 @@ export const WatchListIcon:React.FC<Props>=({watchlist})=>{
   return (
     <div className="my-watchlist-icon">
       <p>
-        <Link className="link" to="/my-watchlist">My WatchList&nbsp;</Link>
+        <Link className="link" to="/my-watchlist/watchlist">My WatchList&nbsp;</Link>
         <i className="fas fa-bookmark" />
         &nbsp;
         {watchlist.Data ? (
