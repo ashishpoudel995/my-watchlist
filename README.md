@@ -20,4 +20,4 @@
 
 #### Hopefully, you'll have a great time using the web app :)
 
-<img src="https://github.com/ashishpoudel995/my-watchlist/blob/master/src/images/chillin.gif"/> 
+<img src="https://github.com/ashishpoudel995/my-watchlist/blob/master/src/images/chillin.gif"/>
