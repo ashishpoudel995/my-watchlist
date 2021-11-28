@@ -7,7 +7,7 @@ export async function apiCall(input_string: string) {
   let api_key:string="45a35551";
 
   await axios
-    .get(`http://www.omdbapi.com/?apikey=${api_key}&s=${input_string}`)
+    .get(`https://www.omdbapi.com/?apikey=${api_key}&s=${input_string}`)
     .then((res) => {
       if (res.data.Error) {
         return [{ error: res.data.Error }];
@@ -28,7 +28,7 @@ export async function searchById(imdb_ids: Array<string>) {
   await Promise.all(
     imdb_ids.map(async (imdbID) => {
       await axios
-        .get(`http://www.omdbapi.com/?apikey=${api_key}&i=${imdbID}`)
+        .get(`https://www.omdbapi.com/?apikey=${api_key}&i=${imdbID}`)
         .then((res2) => {
           search_results_detail.push({
             imdbID,
