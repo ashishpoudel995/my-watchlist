@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import MyWatchList from "./Components/MyWatchList";
 
@@ -7,8 +7,8 @@ const App = () => {
     <Router>
       <div>
         <Routes>
-          <Route path="/watchlist" element={<MyWatchList />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/watchlist/my-watchlist" element={<MyWatchList />} />
+          <Route path="/watchlist/" element={<HomePage />} />
         </Routes>
       </div>
     </Router>

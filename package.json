@@ -2,7 +2,7 @@
   "name": "my-watchlist",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://my-watchlist.ashishpoudel995.github.io",
+  "homepage": "http://ashishpoudel995.github.io/my-watchlist",
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
