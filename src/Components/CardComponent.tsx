@@ -189,7 +189,6 @@ export const SearchResults: React.FC<Props> = ({
   updateWatchList,
   query,
 }) => {
-  console.log(result);
   if (result.length != 0) {
     return (
       <div>

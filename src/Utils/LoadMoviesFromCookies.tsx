@@ -30,7 +30,6 @@ export async function fetchFromCookies(Data: string) {
           return [{ error: "Connected Failed" }];
         }
       } else {
-        console.log(dat.imdbID + "-" + dat.id + "-" + dat.lang);
         try {
           const res = await axios.get(
             `https://yts.mx/api/v2/movie_details.json?movie_id=${dat.id}`
@@ -61,14 +60,12 @@ export async function fetchFromCookies(Data: string) {
             movie_id: res.data.data.movie.id,
             torrents: torrents,
           });
-          console.log(search_results_detail);
         } catch (err) {
           return [{ error: "Error 404" }];
         }
       }
     })
   );
-  console.log(search_results_detail);
   if (search_results_detail.length == 0) return [{ error: "Movie Not Found" }];
   return search_results_detail;
 }
