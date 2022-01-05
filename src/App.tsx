@@ -7,8 +7,8 @@ const App = () => {
     <Router>
       <div>
         <Routes>
-          <Route path="/watchlist/my-watchlist" element={<MyWatchList />} />
-          <Route path="/watchlist/" element={<HomePage />} />
+          <Route path="/my-watchlist/watchlist" element={<MyWatchList />} />
+          <Route path="/my-watchlist/" element={<HomePage />} />
         </Routes>
       </div>
     </Router>
