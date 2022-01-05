@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { apiSearchResults } from "./HomePage";
+import { apiSearchResults, torrent } from "./HomePage";
 import PosterNotFound from "../images/poster-not-found.png";
 import { AddToWatchList } from "../Utils/AddToWatchList";
-import {RemoveFromWatchList} from "../Utils/RemoveFromWatchList";
+import { RemoveFromWatchList } from "../Utils/RemoveFromWatchList";
 import Cookies from "js-cookie";
 
 async function AddToWatchListFunction(
   res: apiSearchResults,
   updateWatchList: () => void,
-  fetchingIDs:()=>void
+  fetchingIDs: () => void
 ) {
   await AddToWatchList(res);
   updateWatchList();
   fetchingIDs();
 }
-async function RemoveFromWatchListFunction(res:apiSearchResults,updateWatchList:()=>void,fetchingIDs:()=>void){
+async function RemoveFromWatchListFunction(
+  res: apiSearchResults,
+  updateWatchList: () => void,
+  fetchingIDs: () => void
+) {
   await RemoveFromWatchList(res);
   updateWatchList();
   fetchingIDs();
@@ -22,20 +26,45 @@ async function RemoveFromWatchListFunction(res:apiSearchResults,updateWatchList:
 function SearchDetails(
   result: Array<apiSearchResults>,
   updateWatchList: () => void,
-  query: string,
+  query: string
 ) {
-  const [watchlist_ids,fetchIds]=useState<Array<string>>([]);
-  function fetchingIDs(){
+  const [watchlist_ids, fetchIds] = useState<Array<string>>([]);
+  function fetchingIDs() {
     const Data = Cookies.get("my-watchlist");
-    if(Data!=undefined && Data.length>0){
-      fetchIds(Data.split(","))
-    }else fetchIds([])
+    if (Data != undefined && Data.length > 0) {
+      const arr: Array<string> = [];
+      JSON.parse(Data).forEach(function (res: {
+        imdbID: string;
+        lang: string;
+        id: string;
+      }) {
+        arr.push(res.imdbID);
+      });
+      fetchIds(arr);
+    } else fetchIds([]);
   }
   useEffect(() => {
     fetchingIDs();
-  }, [])
+  }, []);
   function redirectToIMDB(imdbID?: string) {
     window.open("https://www.imdb.com/title/" + imdbID, "_blank");
+  }
+  function torrentLinks(torrent: torrent[] | undefined) {
+    if (!torrent) {
+      return (
+        <span className="torrent-unavailable">No Torrent Links Available.</span>
+      );
+    }
+    return torrent.map((tor) => {
+      return (
+        <div className="torrent-card" onClick={(e) => window.open(tor.url)}>
+          <i className="fas fa-film" />
+          &nbsp;<span className="torrent-quality">{tor.quality}</span>
+          <br />
+          <span className="torrent-size">({tor.size})</span>
+        </div>
+      );
+    });
   }
   function imdbRatingComponent(imdbRating?: string, imdbID?: string) {
     if (imdbRating === "N/A") {
@@ -103,17 +132,31 @@ function SearchDetails(
             </div>
             <div className="language">{res.Language}</div>
             <div className="genre">{res.Genre}</div>
-            <div className="actors">
-              <span>Cast:</span>
-              <br />
-              {res.Actors}
-            </div>
+            {res.language === "not-english" ? (
+              <div className="actors">
+                <span>Cast:</span>
+                <br />
+                {res.Actors}
+              </div>
+            ) : (
+              <div className="torrent-links">
+                <span className="torrent-header">Torrents:</span>
+                <br />
+                <div className="torrent-card-links">
+                  {torrentLinks(res.torrents)}
+                </div>
+              </div>
+            )}
           </div>
           {imdbRatingComponent(res.imdbRating, res.imdbID)}
-          {query == "search" && res.imdbID && !watchlist_ids.includes(res.imdbID)? (
+          {query == "search" &&
+          res.imdbID &&
+          !watchlist_ids.includes(res.imdbID) ? (
             <button
               className="add-to-watchlist"
-              onClick={(e) => AddToWatchListFunction(res, updateWatchList,fetchingIDs)}
+              onClick={(e) =>
+                AddToWatchListFunction(res, updateWatchList, fetchingIDs)
+              }
             >
               Add to WatchList&emsp;
               <i className="fas fa-bookmark" />
@@ -121,7 +164,9 @@ function SearchDetails(
           ) : (
             <button
               className="add-to-watchlist"
-              onClick={(e) => RemoveFromWatchListFunction(res, updateWatchList,fetchingIDs)}
+              onClick={(e) =>
+                RemoveFromWatchListFunction(res, updateWatchList, fetchingIDs)
+              }
             >
               Delete&emsp;
               <i className="fas fa-trash" />
@@ -144,6 +189,7 @@ export const SearchResults: React.FC<Props> = ({
   updateWatchList,
   query,
 }) => {
+  console.log(result);
   if (result.length != 0) {
     return (
       <div>
@@ -167,4 +213,3 @@ export const SearchResults: React.FC<Props> = ({
     return <div></div>;
   }
 };
-

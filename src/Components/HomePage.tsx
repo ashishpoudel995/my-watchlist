@@ -8,6 +8,11 @@ import Cookies from "js-cookie";
 import { WatchListIcon } from "./WatchListIcon";
 
 type Props = {};
+export type torrent = {
+  url: string;
+  quality: string;
+  size: string;
+};
 export interface apiSearchResults {
   imdbID?: string;
   Poster?: string;
@@ -20,7 +25,11 @@ export interface apiSearchResults {
   Genre?: string;
   Actors?: string;
   error?: string;
+  language?: string;
+  movie_id?: number;
+  torrents?: torrent[];
 }
+
 export type WatchListResponse = {
   Data?: Array<string>;
   Error?: string;
@@ -32,11 +41,12 @@ const HomePage: React.FC<Props> = ({}) => {
   const [loadingwatchlist, setLoadingWatchList] = useState<boolean>(true);
   const [watchlist, setwatchlist] = useState<WatchListResponse>({});
   const [home, sethome] = useState<boolean>(true);
+  const [language, setlanguage] = useState<string>("not-english");
 
   async function initialWatchListLoad() {
     const Data = Cookies.get("my-watchlist");
     if (Data != undefined) {
-      setwatchlist({ Data: Data.split(",") });
+      setwatchlist({ Data: JSON.parse(Data) });
     } else setwatchlist({ Error: "No cookies set" });
     setLoadingWatchList(false);
   }
@@ -54,7 +64,7 @@ const HomePage: React.FC<Props> = ({}) => {
       if (value) sethome(false);
       else sethome(true);
       setLoading(true);
-      setResult(await apiCall(value));
+      setResult(await apiCall(value, language));
       setLoading(false);
     }
   }
@@ -65,7 +75,7 @@ const HomePage: React.FC<Props> = ({}) => {
     if (value) sethome(false);
     else sethome(true);
     setLoading(true);
-    setResult(await apiCall(value));
+    setResult(await apiCall(value, language));
     setLoading(false);
   }
 
@@ -84,6 +94,13 @@ const HomePage: React.FC<Props> = ({}) => {
               onChange={(e) => handleProps(e)}
               onKeyPress={(e) => handleKeyPress(e)}
             />
+            <select
+              name="languages"
+              onChange={(e) => setlanguage(e.target.value)}
+            >
+              <option value="not-english">All Languages</option>
+              <option value="english">English</option>
+            </select>
             <button onClick={(e) => handleButtonClick(e)}>Search</button>
           </div>
           {home ? (

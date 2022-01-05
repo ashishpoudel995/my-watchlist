@@ -1,18 +1,18 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import MyWatchList from "./Components/MyWatchList";
 
-const App=()=>{
-  return(
-    <BrowserRouter>
+const App = () => {
+  return (
+    <Router>
       <div>
         <Routes>
-        <Route path="/my-watchlist/watchlist" element={<MyWatchList/>} />
-        <Route path="/my-watchlist" element={<HomePage/>}/>
+          <Route path="/my-watchlist/watchlist" element={<MyWatchList />} />
+          <Route path="/my-watchlist/" element={<HomePage />} />
         </Routes>
       </div>
-    </BrowserRouter>
-  )
-}
+    </Router>
+  );
+};
 
 export default App;

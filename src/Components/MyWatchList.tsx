@@ -1,10 +1,10 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { SearchResults } from "./CardComponent";
-import { searchById } from "../Utils/apiCalls";
 import { apiSearchResults } from "./HomePage";
 import { loaderAnimation } from "./loaderAnimation";
 import { Link } from "react-router-dom";
+import { fetchFromCookies } from "../Utils/LoadMoviesFromCookies";
 
 export default function MyWatchList() {
   const [loading, setloading] = useState<boolean>(true);
@@ -12,8 +12,8 @@ export default function MyWatchList() {
 
   async function LoadFromCookies() {
     const Data = Cookies.get("my-watchlist");
-    if (Data != undefined && Data.length > 0) {
-      setResult(await searchById(Data.split(",")));
+    if (Data != undefined && JSON.parse(Data).length > 0) {
+      setResult(await fetchFromCookies(Data));
       setloading(false);
     } else {
       setResult([{ error: "Empty Watchlist" }]);
@@ -39,12 +39,15 @@ export default function MyWatchList() {
           </Link>
         </div>
         <div className="search-result">
-          {loaderAnimation(loading)}
-          <SearchResults
-            result={result}
-            updateWatchList={LoadFromCookies}
-            query="watchlist"
-          />
+          {loading ? (
+            loaderAnimation(loading)
+          ) : (
+            <SearchResults
+              result={result}
+              updateWatchList={LoadFromCookies}
+              query="watchlist"
+            />
+          )}
         </div>
       </div>
     </div>
