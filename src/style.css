@@ -66,6 +66,9 @@ input::-webkit-input-placeholder{
     margin-right: 5%;
     margin-left: 5%;
   }
+  .search-box button{
+    margin-left: -10%;
+  } 
 }
 .search-results-disp {
   margin-top: 3em;

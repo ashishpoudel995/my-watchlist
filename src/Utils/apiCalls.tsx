@@ -17,19 +17,18 @@ export async function apiCall(input_string: string) {
       `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${input_string}`
     )
     .then((res) => {
-      if (res.data.Error) {
-        return [{ error: res.data.Error }];
-      }
+      if (!res.data.Error) {
       imdb_ids = res.data.Search.map((id: { imdbID: string }) => {
         return id.imdbID;
-      });
+      })
+      }
     })
     .catch((err) => {
-      return [{ error: "Connection Failed" }];
     });
-  imdb_ids.filter((id: string) => {
+  imdb_ids=imdb_ids.filter((id: string) => {
     return !fetched_imdb_ids.includes(id);
   });
+  console.log(imdb_ids);
   const fetched_from_omdb = await searchById(imdb_ids);
   const result = search_results_detail.concat(fetched_from_omdb);
   result.sort(function (movie_a: apiSearchResults, movie_b: apiSearchResults) {
@@ -43,6 +42,7 @@ export async function apiCall(input_string: string) {
     }
     return 0;
   });
+  if (result.length == 0) return [{error:"No results"}];
   return result;
 }
 
@@ -94,7 +94,7 @@ export async function searchWithTorrent(input_string: string) {
     });
     return search_results_detail;
   } catch (err) {
-    return [{ error: "Error 404" }];
+    return [];
   }
 }
 
@@ -126,6 +126,6 @@ export async function searchById(imdb_ids: Array<string>) {
         });
     })
   );
-  if (search_results_detail.length == 0) return [{ error: "Movie Not Found" }];
+  if (search_results_detail.length == 0) return [];
   return search_results_detail;
 }
