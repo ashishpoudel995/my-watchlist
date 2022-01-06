@@ -41,7 +41,6 @@ const HomePage: React.FC<Props> = ({}) => {
   const [loadingwatchlist, setLoadingWatchList] = useState<boolean>(true);
   const [watchlist, setwatchlist] = useState<WatchListResponse>({});
   const [home, sethome] = useState<boolean>(true);
-  const [language, setlanguage] = useState<string>("not-english");
 
   async function initialWatchListLoad() {
     const Data = Cookies.get("my-watchlist");
@@ -64,7 +63,7 @@ const HomePage: React.FC<Props> = ({}) => {
       if (value) sethome(false);
       else sethome(true);
       setLoading(true);
-      setResult(await apiCall(value, language));
+      setResult(await apiCall(value));
       setLoading(false);
     }
   }
@@ -75,7 +74,7 @@ const HomePage: React.FC<Props> = ({}) => {
     if (value) sethome(false);
     else sethome(true);
     setLoading(true);
-    setResult(await apiCall(value, language));
+    setResult(await apiCall(value));
     setLoading(false);
   }
 
@@ -85,7 +84,10 @@ const HomePage: React.FC<Props> = ({}) => {
         loaderAnimation(loadingwatchlist)
       ) : (
         <div className="main-container">
+          <div className="nav-bar">
           <WatchListIcon watchlist={watchlist} />
+          </div>
+          <div className="main-box">
           <div className="search-box">
             <input
               type="text"
@@ -94,14 +96,9 @@ const HomePage: React.FC<Props> = ({}) => {
               onChange={(e) => handleProps(e)}
               onKeyPress={(e) => handleKeyPress(e)}
             />
-            <select
-              name="languages"
-              onChange={(e) => setlanguage(e.target.value)}
-            >
-              <option value="not-english">All Languages</option>
-              <option value="english">English</option>
-            </select>
-            <button onClick={(e) => handleButtonClick(e)}>Search</button>
+            <button onClick={(e)=>handleButtonClick(e)}>
+              <i className="fas fa-search"></i>
+            </button>
           </div>
           {home ? (
             <div className="chilling">
@@ -115,6 +112,7 @@ const HomePage: React.FC<Props> = ({}) => {
               updateWatchList={initialWatchListLoad}
               query="search"
             />
+          </div>
           </div>
         </div>
       )}

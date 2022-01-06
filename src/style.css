@@ -26,25 +26,36 @@
   align-items: center;
 }
 .search-box input {
-  width: 200px;
+  width: 400px;
   height: 35px;
   font-size: 18px;
   font-family: "Alegreya", serif;
-  background-color: whitesmoke;
-  border: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  outline: none;
+  color:whitesmoke;
 }
-.search-box button {
-  height: 40px;
-  font-size: 18px;
-  font-family: "Alegreya", serif;
-  background-color: rgb(225, 7, 18);
+.search-box input:focus{
+  border: 0.4px solid #983131;
   color: whitesmoke;
-  border: 1px solid black;
-  cursor: pointer;
-  padding: 0 15px 0 15px;
+  padding-left: 5px;
 }
-.search-box button:hover {
-  background-color: rgb(224, 33, 42);
+
+input::-webkit-input-placeholder{
+  color: rgb(224, 33, 42);
+  opacity: 0.9;
+  padding-left: 5px;
+}
+.search-box button{
+  color: whitesmoke;
+  background-color: transparent;
+  border: none;
+  margin-left: -30px;
+  cursor: pointer;
+}
+.search-box button i{
+  background-color: transparent;
+  color: rgb(224, 33, 42);
 }
 @media only screen and (max-width: 900px) {
   .search-box input {
@@ -260,6 +271,11 @@ a {
 .chilling img {
   overflow: auto;
 }
+@media only screen and (min-width:900px) {
+    .chilling img{
+      height:400px;
+    }
+}
 .link {
   background-color: rgb(225, 7, 18);
 }
@@ -295,8 +311,9 @@ option {
   height: 38px;
   font-size: 18px;
   font-family: "Alegreya", serif;
-  background-color: whitesmoke;
-  border: 1px solid black;
+  background-color: black;
+  border: 1px solid whitesmoke;
+  color: whitesmoke;
 }
 .torrent-links {
   padding: 5px;
@@ -335,4 +352,13 @@ option {
   cursor: pointer;
   transform: translateY(-2px);
   transition: 0.3s ease-in-out;
+}
+.card .card-child .container i{
+  color: green;
+  background-color: transparent;
+  position: absolute;
+  margin-left: -140px;
+  font-size: 32px;
+  opacity: 1;
+  margin-top: -2px;
 }

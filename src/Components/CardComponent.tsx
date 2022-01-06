@@ -115,6 +115,7 @@ function SearchDetails(
         <div className="card-child">
           <div className="container">
             {posterComponent(res.Poster)}
+            {res.torrents!=undefined?(<i className="fa fa-bookmark torrent-bookmark" aria-hidden="true"/>):null}
             <div className="plot">
               <p>{res.Plot}</p>
             </div>

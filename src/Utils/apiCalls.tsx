@@ -1,31 +1,49 @@
 import axios from "axios";
 import { apiSearchResults, torrent } from "../Components/HomePage";
 
-export async function apiCall(input_string: string, language: string) {
+export async function apiCall(input_string: string) {
   if (!input_string) return [];
-
-  if (language === "not-english") {
-    let imdb_ids: Array<string> = [];
-
-    await axios
-      .get(
-        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${input_string}`
-      )
-      .then((res) => {
-        if (res.data.Error) {
-          return [{ error: res.data.Error }];
-        }
-        imdb_ids = res.data.Search.map((id: { imdbID: string }) => {
-          return id.imdbID;
-        });
-      })
-      .catch((err) => {
-        return [{ error: "Connection Failed" }];
+  let search_results_detail: Array<apiSearchResults> = [];
+  search_results_detail = await searchWithTorrent(input_string);
+  let fetched_imdb_ids: Array<string> = [];
+  search_results_detail.forEach(function (movie: apiSearchResults) {
+    if (movie.imdbID != undefined) {
+      fetched_imdb_ids.push(movie.imdbID);
+    }
+  });
+  let imdb_ids: Array<string> = [];
+  await axios
+    .get(
+      `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${input_string}`
+    )
+    .then((res) => {
+      if (res.data.Error) {
+        return [{ error: res.data.Error }];
+      }
+      imdb_ids = res.data.Search.map((id: { imdbID: string }) => {
+        return id.imdbID;
       });
-    return await searchById(imdb_ids);
-  } else {
-    return await searchWithTorrent(input_string);
-  }
+    })
+    .catch((err) => {
+      return [{ error: "Connection Failed" }];
+    });
+  imdb_ids.filter((id: string) => {
+    return !fetched_imdb_ids.includes(id);
+  });
+  const fetched_from_omdb = await searchById(imdb_ids);
+  const result = search_results_detail.concat(fetched_from_omdb);
+  result.sort(function (movie_a: apiSearchResults, movie_b: apiSearchResults) {
+    if (movie_a.Title != undefined && movie_b.Title != undefined) {
+      if (movie_a.Title < movie_b.Title) {
+        return -1;
+      }
+      if (movie_a.Title > movie_b.Title) {
+        return 1;
+      }
+    }
+    return 0;
+  });
+  return result;
 }
 
 export async function searchWithTorrent(input_string: string) {
@@ -67,7 +85,7 @@ export async function searchWithTorrent(input_string: string) {
         Language: movie.language,
         Runtime: movie.runtime + "min",
         imdbRating: movie.rating,
-        Genre: movie.genres.slice(0,3).join(","),
+        Genre: movie.genres.slice(0, 3).join(","),
         Plot: movie.summary,
         language: "english",
         movie_id: movie.id,
