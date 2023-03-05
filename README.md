@@ -1,7 +1,7 @@
 # my-watchlist
 <b>my-watchlist</b> is a web application for creating your own watchlist. The website tracks your created watchlist, so that you can comeback anytime and pick from where you left.
 
-### Live Demo: <a href="https://ashishpoudel.tk/my-watchlist">my-watchlist</a>
+### Live Demo: <a href="https://ashishpoudel995.github.io/my-watchlist/">my-watchlist</a>
 
 ### Built Using: 
 <p> 
